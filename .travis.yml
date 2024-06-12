@@ -1,0 +1,21 @@
+sudo: required
+
+services:
+  - docker
+
+before_install:
+  - docker build -t galklein/multi-react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true galklein/multi-react-test npm run test -- --coverage
+
+after_success:
+  - docker build -t galklein/multi-client ./client
+  - docker build -t galklein/multi-nginx ./nginx
+  - docker build -t galklein/multi-api ./server
+  - docker build -t galklein/multi-worker ./worker
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push galklein/multi-client
+  - docker push galklein/multi-nginx
+  - docker push galklein/multi-api
+  - docker push galklein/multi-worker
