@@ -5,7 +5,8 @@
     "redis": "2.8.0",
     "cors": "2.8.4",
     "nodemon": "1.18.3",
-    "body-parser": "*"
+    "body-parser": "*",
+    "@aws-sdk/client-secrets-manager": "3.600.0"
   },
   "scripts": {
     "dev": "NODE_ENV=development nodemon",
